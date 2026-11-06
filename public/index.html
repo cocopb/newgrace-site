@@ -637,7 +637,27 @@
       var v = d && d.videos && d.videos[0];
       if (!v) return;
       latestId = v.id;
+      var lv = document.getElementById('latestVideo');
+      if (lv) {
+        lv.style.backgroundImage = 'linear-gradient(rgba(30,45,90,.25), rgba(30,45,90,.25)), url(https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg)';
+        lv.style.backgroundSize = 'cover';
+        lv.style.backgroundPosition = 'center';
+        var hint = lv.querySelector('.video-hint'); if (hint) hint.remove();
+      }
       var days = (Date.now() - new Date(v.published)) / 864e5;
+      var desc = v.description || '';
+      var grab = function(re){ var m = desc.match(re); return m ? m[1].replace(/["“”]/g, '').trim() : ''; };
+      var ref = grab(/성경\s*말씀\s*[:：]\s*([^\n]+)/);
+      var subject = grab(/말씀\s*제목\s*[:：]\s*([^\n]+)/);
+      var preacher = grab(/말씀\s*선포\s*[:：]\s*([^\n]+)/).replace(/\s+/g, ' ');
+      if (subject) {
+        // 영상 설명의 '말씀 제목 / 성경 말씀 / 말씀 선포'를 읽어서 보여줘요
+        document.getElementById('sermonDate').textContent = ref || (days < 7 ? '이번 주 말씀' : '최근 말씀');
+        document.getElementById('sermonTitle').textContent = subject;
+        document.getElementById('sermonSum').textContent = v.title + (preacher ? ', ' + preacher : '');
+        return;
+      }
+
       if (days < 7) document.getElementById('sermonDate').textContent = '이번 주에 올라온 영상';
       document.getElementById('sermonTitle').textContent = v.title;
       var sum = (v.description || '').trim().split(/\n\s*\n/)[0];
