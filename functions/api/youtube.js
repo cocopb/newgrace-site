@@ -1,15 +1,19 @@
 // 새은혜교회 유튜브 채널의 최신 영상 목록을 돌려주는 기능
 // 주소: /api/youtube  (Cloudflare Pages Functions)
 //
-// 유튜브 피드 서버는 가끔 몇 시간씩 404를 돌려줄 때가 있어요.
-// 그래서 ① 채널 피드 → ② 업로드 재생목록 피드 순서로 시도하고,
-// 둘 다 실패하면 ③ 마지막으로 성공했던 결과를 대신 보여줘요.
+// 가져오는 순서
+//  ① YouTube Data API (Cloudflare 설정에 YT_API_KEY가 있으면) – 가장 안정적
+//  ② 유튜브 RSS 피드 (채널 → 업로드 재생목록)
+//  ③ 모두 실패하면 마지막으로 성공했던 결과
+// 성공한 결과는 10분 동안 재사용해서 API 사용량을 아껴요.
 
 const CHANNEL_ID = 'UCsDQiQTRLlhI5z17cuj_-SQ';
+const UPLOADS = 'UU' + CHANNEL_ID.slice(2);
 const FEEDS = [
   `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`,
-  `https://www.youtube.com/feeds/videos.xml?playlist_id=UU${CHANNEL_ID.slice(2)}`,
+  `https://www.youtube.com/feeds/videos.xml?playlist_id=${UPLOADS}`,
 ];
+const FRESH_KEY = 'https://newgrace-cache.internal/youtube-fresh';
 const LAST_GOOD_KEY = 'https://newgrace-cache.internal/youtube-last-good';
 
 const decode = (s) => s
@@ -28,6 +32,15 @@ export function parseFeed(xml) {
   }).filter((v) => v.id);
 }
 
+export function parseApi(data) {
+  return (data.items || []).map((it) => ({
+    id: it.snippet?.resourceId?.videoId || '',
+    title: (it.snippet?.title || '').trim(),
+    published: it.contentDetails?.videoPublishedAt || it.snippet?.publishedAt || '',
+    description: it.snippet?.description || '',
+  })).filter((v) => v.id && v.title !== 'Private video' && v.title !== 'Deleted video');
+}
+
 const json = (body, status = 200, maxAge = 600) => new Response(JSON.stringify(body), {
   status,
   headers: {
@@ -36,10 +49,19 @@ const json = (body, status = 200, maxAge = 600) => new Response(JSON.stringify(b
   },
 });
 
-async function fetchFeed(url) {
+async function fromApi(key) {
+  const url = 'https://www.googleapis.com/youtube/v3/playlistItems'
+    + `?part=snippet,contentDetails&maxResults=10&playlistId=${UPLOADS}&key=${key}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`api ${res.status}`);
+  const videos = parseApi(await res.json());
+  if (!videos.length) throw new Error('api empty');
+  return videos;
+}
+
+async function fromFeed(url) {
   const res = await fetch(url, {
     headers: { 'user-agent': 'Mozilla/5.0 (compatible; NewGraceChurchSite/1.0)' },
-    // 성공한 응답만 10분 캐시하고, 실패한 응답은 캐시하지 않아요
     cf: { cacheTtlByStatus: { '200-299': 600, '400-599': 0 } },
   });
   if (!res.ok) throw new Error(`feed ${res.status}`);
@@ -50,25 +72,32 @@ async function fetchFeed(url) {
 
 export async function onRequest(context) {
   const cache = caches.default;
-  const errors = [];
 
-  for (const url of FEEDS) {
+  // 10분 안에 받아온 결과가 있으면 그대로 사용
+  const fresh = await cache.match(FRESH_KEY);
+  if (fresh) return json(await fresh.json());
+
+  const sources = [];
+  const key = context.env && context.env.YT_API_KEY;
+  if (key) sources.push(() => fromApi(key));
+  FEEDS.forEach((u) => sources.push(() => fromFeed(u)));
+
+  const errors = [];
+  for (const get of sources) {
     try {
-      const videos = await fetchFeed(url);
-      // 성공한 결과를 30일 동안 보관 (유튜브가 막혔을 때 대신 쓰기 위해)
-      const keep = json({ videos, savedAt: new Date().toISOString() }, 200, 60 * 60 * 24 * 30);
-      context.waitUntil(cache.put(LAST_GOOD_KEY, keep));
-      return json({ videos });
+      const videos = await get();
+      const body = { videos, savedAt: new Date().toISOString() };
+      context.waitUntil(Promise.all([
+        cache.put(FRESH_KEY, json(body, 200, 600)),
+        cache.put(LAST_GOOD_KEY, json(body, 200, 60 * 60 * 24 * 30)),
+      ]));
+      return json(body);
     } catch (err) {
       errors.push(String(err));
     }
   }
 
-  // 유튜브가 모두 실패 → 마지막으로 성공했던 결과 사용
   const saved = await cache.match(LAST_GOOD_KEY);
-  if (saved) {
-    const data = await saved.json();
-    return json({ ...data, stale: true }, 200, 300);
-  }
-  return json({ videos: [], error: errors.join(' / ') }, 502);
+  if (saved) return json({ ...(await saved.json()), stale: true }, 200, 300);
+  return json({ videos: [], error: errors.join(' / '), hasKey: Boolean(key) }, 502);
 }
