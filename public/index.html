@@ -106,6 +106,7 @@
   .day li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0}
   .svc{display:flex;align-items:center;gap:10px;font-weight:500}
   .live-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);font-weight:400}
+  .freq{font-size:12px;font-weight:500;color:#8C6D2C;border:1px solid var(--band-soft);border-radius:999px;padding:1px 8px;white-space:nowrap}
   .when{display:flex;align-items:baseline;gap:8px}
   .ap{font-size:13px;color:var(--muted)}
   .tm{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right;letter-spacing:-.01em}
@@ -326,7 +327,7 @@
           <p class="intro">처음 오시는 날은 이렇게 진행돼요.</p>
         </div>
         <ol class="steps">
-          <li><div><h3>도착</h3><p>교회 주차장에 25대 정도 주차할 수 있어요.<br>버스는 연제새한아파트 정류장에서 내려 1분만 걸으면 돼요.</p></div></li>
+          <li><div><h3>도착</h3><p>교회 주차장에 25대 정도 주차할 수 있어요.<br>버스는 연제새한아파트 정류장에서 내리면 걸어서 1분,<br>연제현대아파트 정류장에서 내리면 걸어서 3분이에요.</p></div></li>
           <li><div><h3>입구에서 인사</h3><p>새가족 담당자분이 반갑게 맞이하고, 3층 예배당까지 함께 안내해 드려요.<br>이름을 꼭 적지 않으셔도 괜찮아요.</p></div></li>
           <li><div><h3>예배</h3><p>약 1시간 진행돼요.<br>찬양이나 기도를 몰라도 괜찮아요.</p></div></li>
           <li><div><h3>목사님과 인사</h3><p>예배가 끝나면 예배당 앞에서 목사님과 짧게 악수하며 인사를 나눠요.</p></div></li>
@@ -354,7 +355,7 @@
           <div class="day"><h3 class="day-name">주일</h3><ul>
             <li><span class="svc">1부 예배<span class="live-tag"><span class="live-dot" aria-hidden="true"></span>라이브</span></span><span class="when"><span class="ap">오전</span><span class="tm">9:00</span></span></li>
             <li><span class="svc">2부 예배<span class="live-tag"><span class="live-dot" aria-hidden="true"></span>라이브</span></span><span class="when"><span class="ap">오전</span><span class="tm">11:00</span></span></li>
-            <li><span class="svc">청년부 예배</span><span class="when"><span class="ap">오후</span><span class="tm">1:30</span></span></li>
+            <li><span class="svc">청년부 예배<span class="freq">매월 마지막 주</span></span><span class="when"><span class="ap">오후</span><span class="tm">1:30</span></span></li>
             <li><span class="svc">오후 예배<span class="live-tag"><span class="live-dot" aria-hidden="true"></span>라이브</span></span><span class="when"><span class="ap">오후</span><span class="tm">2:00</span></span></li>
           </ul></div>
           <div class="day"><h3 class="day-name">수요일</h3><ul>
@@ -500,7 +501,7 @@
     <div class="wrap two">
       <div>
         <h2>오시는 길</h2>
-        <p class="intro">차로 오시면 교회 주차장을,<br>버스로 오시면 연제새한아파트 정류장을 이용하세요.</p>
+        <p class="intro">차로 오시면 교회 주차장을,<br>버스로 오시면 연제새한아파트나 연제현대아파트 정류장을 이용하세요.</p>
       </div>
       <div class="map">
         <svg class="map-svg" viewBox="10 0 770 700" role="img" aria-label="새은혜교회 약도: 큰길 위쪽, 현대아파트 옆 골목 왼편에 교회가 있어요. 맞은편에 교촌치킨과 파리바게트가 있어요.">
@@ -524,7 +525,7 @@
           <rect class="lm" x="276" y="89" width="14" height="14" rx="3"/><text class="lbl" x="305" y="105" text-anchor="start">새한아파트</text>
           <rect class="lm" x="248" y="391" width="14" height="14" rx="3"/><text class="lbl" x="238" y="407" text-anchor="end">이글레스안경점</text>
           <rect class="lm" x="345" y="391" width="14" height="14" rx="3"/><text class="lbl" x="348" y="330" text-anchor="start">현대</text><text class="lbl" x="348" y="365" text-anchor="start">아파트</text>
-          <rect class="lm" x="583" y="391" width="14" height="14" rx="3"/><text class="lbl" x="600" y="330" text-anchor="end">현대</text><text class="lbl" x="600" y="365" text-anchor="end">오일뱅크</text>
+          <rect class="lm" x="583" y="391" width="14" height="14" rx="3"/><text class="lbl" x="600" y="365" text-anchor="end">SK 주유소</text>
           <rect class="lm" x="261" y="528" width="14" height="14" rx="3"/><text class="lbl" x="250" y="544" text-anchor="end">교촌치킨</text>
           <rect class="lm" x="345" y="528" width="14" height="14" rx="3"/><text class="lbl" x="372" y="544" text-anchor="start">파리바게트</text>
           <rect class="lm" x="345" y="623" width="14" height="14" rx="3"/><text class="lbl" x="372" y="639" text-anchor="start">영암마트</text>
@@ -536,6 +537,7 @@
           <p>지번 연제동 36, 우편번호 61082</p>
           <p>주차: 교회 주차장 25대 정도</p>
           <p>버스: 연제새한아파트 정류장 하차, 걸어서 1분</p>
+          <p>버스: 연제현대아파트 정류장 하차, 걸어서 3분</p>
           <div class="map-btns">
             <a class="btn btn-solid btn-sm" href="https://map.naver.com/p/search/%EA%B4%91%EC%A3%BC%20%EC%83%88%EC%9D%80%ED%98%9C%EA%B5%90%ED%9A%8C" target="_blank" rel="noopener">네이버 지도로 길찾기</a>
             <a class="btn btn-line btn-sm" href="https://map.kakao.com/?q=%EA%B4%91%EC%A3%BC%20%EC%83%88%EC%9D%80%ED%98%9C%EA%B5%90%ED%9A%8C" target="_blank" rel="noopener">카카오맵</a>
@@ -613,10 +615,13 @@
       var TODAY = [
         {st:9*60,     name:'1부 예배',    time:'오전 9시'},
         {st:11*60,    name:'2부 예배',    time:'오전 11시'},
-        {st:13*60+30, name:'청년부 예배', time:'오후 1시 30분'},
+        {st:13*60+30, name:'청년부 예배', time:'오후 1시 30분', lastOnly:true},
         {st:14*60,    name:'오후 예배',   time:'오후 2시'}
       ];
-      var up = TODAY.filter(function(w){ return w.st > mins; })[0];
+      // 청년부 예배는 매월 마지막 주일에만 있어요 (오늘에서 7일 뒤가 다음 달이면 마지막 주일)
+      var daysInMonth = new Date(nowKst.getFullYear(), nowKst.getMonth() + 1, 0).getDate();
+      var isLastSunday = nowKst.getDate() + 7 > daysInMonth;
+      var up = TODAY.filter(function(w){ return w.st > mins && (!w.lastOnly || isLastSunday); })[0];
       if (up) {
         document.querySelector('.door-when').textContent = '오늘은 주일이에요';
         document.getElementById('nextDate').textContent = up.name;
