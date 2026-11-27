@@ -217,6 +217,8 @@
   .story cite{display:block;font-style:normal;font-size:14px;color:var(--muted);margin-top:8px}
 
   /* 섬기는 분들 */
+  .arch.photo{padding:0;overflow:hidden;background:var(--mist)}
+  .arch.photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 20%}
   .lead-pastor{margin-top:28px;display:grid;gap:18px}
   .lead-pastor .arch{max-width:260px;aspect-ratio:3/3.6}
   .lead-pastor h3{font-family:var(--serif);font-size:26px;margin-top:2px}
@@ -258,6 +260,18 @@
   .addr{font-weight:600;font-size:17px}
   .map-body p{color:var(--muted);font-size:15px;margin-top:4px}
   .map-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .bus{margin-top:18px;padding-top:16px;border-top:1px solid var(--mist)}
+  .bus-title{font-weight:700;font-size:15px;margin-bottom:6px}
+  .bus-stop{padding:12px 0;border-bottom:1px dashed var(--mist)}
+  .bus-stop:last-of-type{border-bottom:none}
+  .bus-stop b{font-weight:700}
+  .bus-walk{margin-left:8px;font-size:13px;color:var(--muted)}
+  .bus-lines{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .bus-no{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--gold-soft);color:var(--ink)}
+  .bus-links{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px;font-size:14px}
+  .bus-links a,.bus-note a{color:var(--gold);font-weight:600;text-underline-offset:3px}
+  .bus-note{font-size:13px;color:var(--muted);margin-top:10px}
+
 
   /* 초대 */
   .invite{background:var(--ink);color:var(--white);border-top:none}
@@ -448,7 +462,7 @@
 
       <div class="faq">
         <details><summary>헌금을 꼭 해야 하나요?</summary><p>아니요. 헌금은 마음에 감사와 감동이 있을 때, 각자 정한 만큼 드리는 거예요.<br>새은혜교회는 헌금을 강요하지 않으니, 편안한 마음으로 예배에 함께해 주세요.</p></details>
-        <details><summary>아이와 함께 가도 되나요?</summary><p>물론이에요. 나이에 맞게 유아유치부, 주일학교, 중고등부가 따로 있어서 아이도 또래와 함께 예배할 수 있어요.</p></details>
+        <details><summary>아이와 함께 가도 되나요?</summary><p>물론이에요. 나이에 맞게 유아유치부, 아동부, 중고등부가 따로 있어서 아이도 또래와 함께 예배할 수 있어요.</p></details>
         <details><summary>교회를 다녀 본 적이 없는데 괜찮을까요?</summary><p>새은혜교회에 오는 분 중에도 처음 교회에 온 분들이 계세요.<br>궁금한 건 언제든 물어보셔도 돼요.</p></details>
       </div>
     </div>
@@ -465,7 +479,9 @@
         <div class="sched">
           <div class="day"><h3 class="day-name">주일</h3><ul>
             <li><span class="svc">1부 예배<span class="live-tag"><span class="live-dot" aria-hidden="true"></span>라이브</span></span><span class="when"><span class="ap">오전</span><span class="tm">9:00</span></span></li>
+            <li><span class="svc">중고등부 예배</span><span class="when"><span class="ap">오전</span><span class="tm">9:00</span></span></li>
             <li><span class="svc">2부 예배<span class="live-tag"><span class="live-dot" aria-hidden="true"></span>라이브</span></span><span class="when"><span class="ap">오전</span><span class="tm">11:00</span></span></li>
+            <li><span class="svc">주일학교 예배</span><span class="when"><span class="ap">오전</span><span class="tm">11:00</span></span></li>
             <li><span class="svc">청년부 예배<span class="freq">매월 마지막 주</span></span><span class="when"><span class="ap">오후</span><span class="tm">1:30</span></span></li>
             <li><span class="svc">오후 예배<span class="live-tag"><span class="live-dot" aria-hidden="true"></span>라이브</span></span><span class="when"><span class="ap">오후</span><span class="tm">2:00</span></span></li>
           </ul></div>
@@ -473,7 +489,7 @@
             <li><span class="svc">수요 예배<span class="live-tag"><span class="live-dot" aria-hidden="true"></span>라이브</span></span><span class="when"><span class="ap">오후</span><span class="tm">7:00</span></span></li>
           </ul></div>
           <div class="day"><h3 class="day-name">화, 수, 금, 토</h3><ul>
-            <li><span class="svc">새벽 예배</span><span class="when"><span class="ap">오전</span><span class="tm">5:00</span></span></li>
+            <li><span class="svc">새벽 예배</span><span class="when"><span class="ap">오전</span><span class="tm">5:20</span></span></li>
           </ul></div>
         </div>
       </div>
@@ -554,7 +570,7 @@
       <h2>섬기는 분들</h2>
       <p class="intro">궁금한 게 있으면 언제든 편하게 말 걸어 주세요.</p>
       <div class="lead-pastor">
-        <div class="arch">담임목사 사진</div>
+        <div class="arch photo"><img src="/people/jeong-jecheon.webp" alt="정제천 담임목사" width="354" height="425" loading="lazy"></div>
         <div>
           <div class="role">담임목사</div>
           <h3>정제천 <span class="title">목사</span></h3>
@@ -580,7 +596,7 @@
           <div class="person">
             <div class="arch">사진</div>
             <h3>문단비 <span class="title">전도사</span></h3>
-            <div class="role">주일학교</div>
+            <div class="role">아동부</div>
           </div>
           <div class="person">
             <div class="arch">사진</div>
@@ -647,13 +663,25 @@
           <div class="addr">광주광역시 북구 양일로 51-7</div>
           <p>지번 연제동 36, 우편번호 61082</p>
           <p>주차: 교회 주차장 25대 정도</p>
-          <p>버스: 연제새한아파트 정류장 하차, 걸어서 1분</p>
-          <p>버스: 연제현대아파트 정류장 하차, 걸어서 3분</p>
+          <div class="bus">
+            <div class="bus-title">버스로 오시는 길</div>
+            <div class="bus-stop">
+              <div><b>연제새한아파트</b> 정류장<span class="bus-walk">걸어서 1분</span></div>
+              <div class="bus-lines" data-stop="saehan"></div>
+              <div class="bus-links"><a href="https://map.kakao.com/?q=%EC%97%B0%EC%A0%9C%EC%83%88%ED%95%9C%EC%95%84%ED%8C%8C%ED%8A%B8%20%EC%A0%95%EB%A5%98%EC%9E%A5" target="_blank" rel="noopener">카카오맵에서 버스 보기</a><a href="https://map.naver.com/p/search/%EC%97%B0%EC%A0%9C%EC%83%88%ED%95%9C%EC%95%84%ED%8C%8C%ED%8A%B8%20%EB%B2%84%EC%8A%A4%EC%A0%95%EB%A5%98%EC%9E%A5" target="_blank" rel="noopener">네이버 지도</a></div>
+            </div>
+            <div class="bus-stop">
+              <div><b>연제현대아파트</b> 정류장<span class="bus-walk">걸어서 3분</span></div>
+              <div class="bus-lines" data-stop="hyundai"></div>
+              <div class="bus-links"><a href="https://map.kakao.com/?q=%EC%97%B0%EC%A0%9C%ED%98%84%EB%8C%80%EC%95%84%ED%8C%8C%ED%8A%B8%20%EC%A0%95%EB%A5%98%EC%9E%A5" target="_blank" rel="noopener">카카오맵에서 버스 보기</a><a href="https://map.naver.com/p/search/%EC%97%B0%EC%A0%9C%ED%98%84%EB%8C%80%EC%95%84%ED%8C%8C%ED%8A%B8%20%EB%B2%84%EC%8A%A4%EC%A0%95%EB%A5%98%EC%9E%A5" target="_blank" rel="noopener">네이버 지도</a></div>
+            </div>
+            <p class="bus-note">버스 도착 시간과 노선은 <a href="https://bus.gwangju.go.kr" target="_blank" rel="noopener">광주 버스운행정보</a>에서도 실시간으로 볼 수 있어요.</p>
+          </div>
           <div class="map-btns">
             <a class="btn btn-solid btn-sm" href="https://map.naver.com/p/search/%EA%B4%91%EC%A3%BC%20%EC%83%88%EC%9D%80%ED%98%9C%EA%B5%90%ED%9A%8C" target="_blank" rel="noopener">네이버 지도로 길찾기</a>
             <a class="btn btn-line btn-sm" href="https://map.kakao.com/?q=%EA%B4%91%EC%A3%BC%20%EC%83%88%EC%9D%80%ED%98%9C%EA%B5%90%ED%9A%8C" target="_blank" rel="noopener">카카오맵</a>
             <button class="btn btn-line btn-sm" type="button" id="copyAddr">주소 복사</button>
-            <a class="btn btn-line btn-sm" href="tel:062-572-1010">전화하기</a>
+            <a class="btn btn-line btn-sm" href="tel:0625721010">전화하기</a>
           </div>
         </div>
       </div>
@@ -679,7 +707,7 @@
     </div>
     <div>대한예수교장로회(통합) 소속</div>
     <div>광주광역시 북구 양일로 51-7 (연제동 36)</div>
-    <div>전화 <a href="tel:062-572-1010">062-572-1010</a></div>
+    <div>전화 <a href="tel:0625721010">062-572-1010</a></div>
   </div>
 </footer>
 
@@ -826,6 +854,19 @@
         });
       }, {threshold: 0}).observe(target);
     }
+  })();
+
+  // 교회 앞 정류장을 지나는 버스 번호 — 확인된 번호만 적어 주세요. 비어 있으면 칸이 숨겨져요.
+  (function(){
+    var BUS_LINES = {
+      saehan:  [],   // 연제새한아파트 정류장 예: ['용전85', '송정33']
+      hyundai: []    // 연제현대아파트 정류장
+    };
+    [].forEach.call(document.querySelectorAll('.bus-lines'), function(el){
+      var list = BUS_LINES[el.getAttribute('data-stop')] || [];
+      if (!list.length) { el.style.display = 'none'; return; }
+      el.innerHTML = list.map(function(n){ return '<span class="bus-no">' + n + '</span>'; }).join('');
+    });
   })();
 
   // 다음 주일예배 날짜와 남은 시간 (한국 시간 기준, 주일 오전 11시)
