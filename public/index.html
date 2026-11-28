@@ -223,6 +223,9 @@
   .lead-pastor .arch{max-width:260px;aspect-ratio:3/3.6}
   .lead-pastor h3{font-family:var(--serif);font-size:26px;margin-top:2px}
   .lead-pastor p{color:var(--muted);margin-top:10px;max-width:30em}
+  .lead-pastor .greeting{font-family:var(--serif);font-size:17px;line-height:1.8;color:var(--ink);margin-top:14px}
+  .lead-pastor .greeting p{color:var(--ink);margin-top:12px;max-width:none}
+  .lead-pastor .greeting p:first-child{margin-top:0;font-weight:700}
   .title{font-family:var(--sans);font-size:.62em;font-weight:500;color:var(--muted)}
   .role{font-size:14px;color:var(--muted)}
   .people{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px 14px}
@@ -310,7 +313,7 @@
     .sermon-body{padding:36px;align-self:center}
     .stories{overflow:visible;margin-right:0;padding-right:0}
     .story{flex:1 1 0;max-width:none}
-    .lead-pastor{grid-template-columns:260px 1fr;gap:40px;align-items:end}
+    .lead-pastor{grid-template-columns:260px 1fr;gap:44px;align-items:center}
     .people{grid-template-columns:repeat(5,1fr);gap:24px}
     .person h3{font-size:17px}
     .person .role{font-size:14px}
@@ -574,7 +577,7 @@
         <div>
           <div class="role">담임목사</div>
           <h3>정제천 <span class="title">목사</span></h3>
-          <p><span class="ph">처음 오시는 분께 드리는 짧은 인사말 두세 문장. 목사님께 직접 받아 넣으면 좋아요.</span></p>
+          <div class="greeting"><p>하나님은 당신을 사랑하십니다.</p><p>이 세상에 오직 당신 한 사람뿐이었다 해도,<br>예수님은 기꺼이 당신을 위해<br>십자가를 지셨을 것입니다.</p><p>섬기러 오신 그 예수님을 따라,<br>저희도 하나님이 사랑하시는 당신이<br>더 행복할 수 있도록 정성을 다해 섬기겠습니다.</p><p>언제든 편안한 마음으로 오십시오.</p></div>
         </div>
       </div>
       <div class="people">
