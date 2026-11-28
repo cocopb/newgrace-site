@@ -740,16 +740,15 @@
     function pickTheme(d){
       var easter = easterOf(d.getFullYear());
       var ashWed = new Date(easter - 46*DAY);         // 재의 수요일 = 사순절 시작
-      var easterEnd = new Date(+easter + 6*DAY);      // 부활 주일부터 한 주
-      if (d >= ashWed && d < easter) return 'lent';
+      var easterEnd = new Date(+easter + 13*DAY);     // 부활 주일부터 2주
       if (d >= easter && d <= easterEnd) return 'easter';
-      var m = d.getMonth(), day = d.getDate();
-      // 성탄: 11월 25일 ~ 다음 해 1월 15일
-      if ((m === 10 && day >= 25) || m === 11 || (m === 0 && day <= 15)) return 'christmas';
-      if (m >= 2 && m <= 4) return 'spring';           // 3~5월
-      if (m >= 5 && m <= 7) return 'summer';           // 6~8월
-      if (m >= 8 && m <= 10) return 'autumn';          // 9월 ~ 11월 24일 (추수감사절 포함)
-      return 'default';                                 // 1월 16일 ~ 2월 (사순절이 아닐 때)
+      if (d >= ashWed && d < easter) return 'lent';
+      var md = (d.getMonth() + 1) * 100 + d.getDate();  // 예: 11월 15일 → 1115
+      if (md >= 1115 || md <= 115) return 'christmas';  // 성탄: 11월 15일 ~ 1월 15일
+      if (md <= 331) return 'default';                  // 겨울: 1월 16일 ~ 3월 31일 (선 그림 교회)
+      if (md <= 610) return 'spring';                   // 봄: 4월 1일 ~ 6월 10일
+      if (md <= 831) return 'summer';                   // 여름: 6월 11일 ~ 8월 31일
+      return 'autumn';                                  // 가을: 9월 1일 ~ 11월 14일
     }
     var forced = (location.search.match(/[?&]theme=(\w+)/) || [])[1];
     var theme = forced || pickTheme(today);
