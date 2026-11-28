@@ -242,6 +242,12 @@
   .pray .chk input{width:18px;height:18px;accent-color:var(--ink)}
   .pray-done{display:none;padding:14px 16px;border-radius:12px;background:var(--mist);font-size:15px}
   .pray.sent .pray-done{display:block}
+  .pray .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .pray{position:relative}
+  .pray-err{display:none;padding:14px 16px;border-radius:12px;background:#FBEDEA;color:#8A2E22;font-size:15px}
+  .pray-err a{color:inherit;font-weight:600}
+  .pray.failed .pray-err{display:block}
+  .pray button[disabled]{opacity:.6;cursor:wait}
 
   /* 오시는 길 */
   .map{margin-top:26px;border-radius:20px;overflow:hidden;background:var(--white)}
@@ -446,6 +452,7 @@
     </div>
   </section>
 
+
   <!-- 처음 오셨나요 -->
   <section class="blk" id="first">
     <div class="wrap">
@@ -615,13 +622,15 @@
     <div class="wrap two">
       <div>
         <h2>기도가 필요하신가요?</h2>
-        <p class="intro">교회에 다니지 않아도 괜찮아요.<br>남겨 주신 내용은 담임목사님만 보고,<br>한 주 동안 이름을 부르며 기도할게요.</p>
+        <p class="intro">교회에 다니지 않아도 괜찮아요.<br>남겨 주신 내용은 교회 기도 담당자만 보고,<br>한 주 동안 이름을 부르며 기도할게요.</p>
       </div>
       <form class="pray" id="prayForm">
         <label>이름<input type="text" name="name" required placeholder="이름을 적어 주세요" autocomplete="name"></label>
         <label>기도 제목<textarea name="body" required placeholder="어떤 일을 위해 기도하면 좋을까요?"></textarea></label>
+        <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="btn btn-solid" type="submit">기도 요청 보내기</button>
         <div class="pray-done" role="status">기도 요청을 보냈어요. 이번 주 동안 함께 기도할게요.</div>
+        <div class="pray-err" role="alert">지금은 보내지지 않았어요. 잠시 후 다시 시도하시거나<br><a href="tel:0625721010">062-572-1010</a>으로 전화 주세요.</div>
       </form>
     </div>
   </section>
@@ -1031,12 +1040,35 @@
   }, {rootMargin:'-45% 0px -50% 0px'});
   ids.forEach(function(id){ var el = document.getElementById(id); if (el) io.observe(el); });
 
-  // 기도 요청 (시안: 실제 전송 없음)
-  document.getElementById('prayForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    this.classList.add('sent');
-    this.querySelector('textarea').value = '';
-  });
+  // 기도 요청 → /api/prayer → 구글 시트 저장 + 메일 알림
+  (function(){
+    var form = document.getElementById('prayForm');
+    var opened = Date.now();
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('button');
+      var label = btn.textContent;
+      form.classList.remove('sent', 'failed');
+      btn.disabled = true; btn.textContent = '보내는 중…';
+      fetch('/api/prayer', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify({
+          name: form.elements.name.value,
+          body: form.elements.body.value,
+          website: form.elements.website.value,
+          elapsed: Date.now() - opened
+        })
+      }).then(function(r){ return r.json().catch(function(){ return {ok:false}; }); })
+        .then(function(res){
+          if (!res || !res.ok) throw new Error('fail');
+          form.classList.add('sent');
+          form.elements.body.value = '';
+        })
+        .catch(function(){ form.classList.add('failed'); })
+        .then(function(){ btn.disabled = false; btn.textContent = label; });
+    });
+  })();
 
   // 주소 복사
   document.getElementById('copyAddr').addEventListener('click', function(){
